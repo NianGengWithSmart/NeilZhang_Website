@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -795,7 +795,7 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <!-- 个人照片路径配置说明：
+                    <!-- 个人照片路径配置：
                          本地部署时使用相对路径：./images/profile.jpg
                          云端部署时使用绝对路径：https://yourdomain.com/images/profile.jpg
                          或使用CDN：https://cdn.example.com/images/profile.jpg
@@ -1085,21 +1085,58 @@
         }
 
         // Language toggle
-        let currentLanguage = 'zh';
+        let currentLanguage = 'en';  // 改为默认英文
 
-        function toggleLanguage() {
-            currentLanguage = currentLanguage === 'zh' ? 'en' : 'zh';
+        function setLanguage(lang) {
+            currentLanguage = lang;
             const elements = document.querySelectorAll('[data-zh][data-en]');
             
             elements.forEach(element => {
-                const text = element.getAttribute(`data-${currentLanguage}`);
+                const text = element.getAttribute(`data-${lang}`);
                 if (text) {
-                    element.textContent = text;
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.value = text;
+                    } else {
+                        element.textContent = text;
+                    }
                 }
             });
+
+            // 更新语言切换按钮文本
+            const langToggle = document.querySelector('.lang-toggle');
+            langToggle.textContent = lang === 'en' ? '中文' : 'EN';
             
-            localStorage.setItem('language', currentLanguage);
+            localStorage.setItem('language', lang);
         }
+
+        function toggleLanguage() {
+            const newLang = currentLanguage === 'en' ? 'zh' : 'en';
+            setLanguage(newLang);
+        }
+
+        // 修改初始化部分
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved preferences
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const savedLanguage = localStorage.getItem('language') || 'en';  // 默认英文
+            
+            document.body.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                document.querySelector('.theme-toggle i').className = 'fas fa-sun';
+            }
+            
+            // 设置初始语言
+            setLanguage(savedLanguage);
+            
+            // Setup smooth scroll
+            setupSmoothScroll();
+            
+            // Initial animation trigger
+            setTimeout(handleScrollAnimations, 100);
+
+            // Setup image zoom
+            setupImageZoom();
+        });
 
         // Project navigation
         function openProject(url) {
@@ -1186,17 +1223,15 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Load saved preferences
             const savedTheme = localStorage.getItem('theme') || 'light';
-            const savedLanguage = localStorage.getItem('language') || 'zh';
+            const savedLanguage = localStorage.getItem('language') || 'en';  // 默认英文
             
             document.body.setAttribute('data-theme', savedTheme);
             if (savedTheme === 'dark') {
                 document.querySelector('.theme-toggle i').className = 'fas fa-sun';
             }
             
-            if (savedLanguage === 'en') {
-                currentLanguage = 'zh'; // Will be toggled to 'en'
-                toggleLanguage();
-            }
+            // 设置初始语言
+            setLanguage(savedLanguage);
             
             // Setup smooth scroll
             setupSmoothScroll();
