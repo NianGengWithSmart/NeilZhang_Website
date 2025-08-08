@@ -43,6 +43,28 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
+            position: relative;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #667eea;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            color: #5a6fd8;
         }
 
         .logo {
@@ -307,19 +329,45 @@
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             border-left: 4px solid transparent;
+            position: relative;
+            transform-origin: left center;
+            overflow: hidden;
+        }
+
+        .methodology-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(102, 126, 234, 0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .methodology-tab:hover {
-            transform: translateX(5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+        }
+
+        .methodology-tab:hover::before {
+            opacity: 1;
         }
 
         .methodology-tab.active {
             border-left-color: #667eea;
             background: linear-gradient(135deg, #f8f9ff, #ffffff);
-            transform: translateX(10px);
+            transform: translateX(15px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            z-index: 1;
+        }
+        
+        .methodology-tab.active::before {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05));
         }
 
         .methodology-tab h3 {
@@ -334,24 +382,67 @@
             text-align: center;
         }
 
-        .methodology-image {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s;
+        /* Tab image styles for both desktop and mobile */
+        .tab-image {
             display: none;
+            margin-top: 1.5rem;
+            text-align: center;
         }
 
-        .methodology-image.active {
-            opacity: 1;
-            transform: translateY(0);
-            display: block;
-        }
-
-        .methodology-image img {
+        .tab-image img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .methodology-tab.active .tab-image img {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Desktop styles (screens wider than 768px) */
+        @media (min-width: 769px) {
+            .methodology-visual {
+                display: block;
+            }
+            .tab-image {
+                display: none !important;
+            }
+            .methodology-image {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.5s;
+                display: none;
+            }
+            .methodology-image.active {
+                opacity: 1;
+                transform: translateY(0);
+                display: block;
+            }
+            .methodology-image img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 10px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            }
+        }
+
+        /* Mobile styles (screens 768px and narrower) */
+        @media (max-width: 768px) {
+            .methodology-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .methodology-visual {
+                display: none;
+            }
+            .methodology-tab.active .tab-image {
+                display: block;
+            }
         }
 
         /* Experiment section styles */
@@ -487,14 +578,30 @@
 
         @media (max-width: 768px) {
             .nav {
-                flex-direction: column;
-                gap: 1rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
             }
 
             .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
                 flex-direction: column;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 1rem;
                 text-align: center;
                 gap: 1rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.show {
+                display: flex;
             }
 
             .hero-content h1 {
@@ -617,9 +724,14 @@
                 <li><a href="#experiment" data-en="Experiment" data-zh="实验分析">Experiment</a></li>
                 <li><a href="#contribution" data-en="Contribution" data-zh="主要贡献">Contribution</a></li>
             </ul>
-            <button class="lang-switch" onclick="toggleLanguage()">
-                <i class="fas fa-language"></i> <span id="langText">中文</span>
-            </button>
+            <div class="controls">
+                <button class="lang-switch" onclick="toggleLanguage()">
+                    <i class="fas fa-language"></i> <span id="langText">中文</span>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </nav>
     </header>
 
@@ -773,20 +885,44 @@
                 <div class="methodology-content">
                     <div class="methodology-tabs">
                         <div class="methodology-tab active" data-tab="1">
-                            <h3><i class="fas fa-cogs"></i> Multi-Model Collaborative Generation</h3>
-                            <p>Utilizes five frontier LLMs (<span class="bold">Claude Sonnet 4</span>, <span class="bold">Gemini 2.5 Pro</span>, <span class="bold">DeepSeek R1</span>, <span class="bold">ChatGPT o3</span>, <span class="bold">Grok 4</span>) with <span class="bold">Chain-of-Thought prompts</span> to extract meta-knowledge and generate self-contained Q&A pairs.</p>
+                            <div class="tab-content">
+                                <h3><i class="fas fa-cogs"></i> Multi-Model Collaborative Generation</h3>
+                                <p>Utilizes five frontier LLMs (<span class="bold">Claude Sonnet 4</span>, <span class="bold">Gemini 2.5 Pro</span>, <span class="bold">DeepSeek R1</span>, <span class="bold">ChatGPT o3</span>, <span class="bold">Grok 4</span>) with <span class="bold">Chain-of-Thought prompts</span> to extract meta-knowledge and generate self-contained Q&A pairs.</p>
+                            </div>
+                            <div class="tab-image">
+                                <img src="./images/fig3_methodology.png" alt="Multi-Model Generation">
+                                <div class="image-caption">Multi-LLM Collaborative Q&A Generation Process</div>
+                            </div>
                         </div>
                         <div class="methodology-tab" data-tab="2">
-                            <h3><i class="fas fa-chart-line"></i> Quantitative Evaluation Framework</h3>
-                            <p>Designs comprehensive assessment system encompassing <span class="bold">text quality metrics</span> (readability, coherence, technical term density) and <span class="bold">retrieval accuracy metrics</span> (recall, precision). Through comprehensive evaluation, we select a high-quality Q&A knowledge base produced through <span class="bold">knowledge distillation</span> as the foundation for subsequent integration.</p>
+                            <div class="tab-content">
+                                <h3><i class="fas fa-chart-line"></i> Quantitative Evaluation Framework</h3>
+                                <p>Designs comprehensive assessment system encompassing <span class="bold">text quality metrics</span> (readability, coherence, technical term density) and <span class="bold">retrieval accuracy metrics</span> (recall, precision). Through comprehensive evaluation, we select a high-quality Q&A knowledge base produced through <span class="bold">knowledge distillation</span> as the foundation for subsequent integration.</p>
+                            </div>
+                            <div class="tab-image">
+                                <img src="./images/fig4_evaluation_framework.png" alt="Evaluation Framework">
+                                <div class="image-caption">Comprehensive Quantitative Evaluation Framework</div>
+                            </div>
                         </div>
                         <div class="methodology-tab" data-tab="3">
-                            <h3><i class="fas fa-vote-yea"></i> Cross-Model Voting Mechanism</h3>
-                            <p>Employs <span class="bold">semantic similarity comparison</span> and <span class="bold">voting mechanisms</span> to filter and integrate complementary Q&A pairs from different models. High-quality Q&A pairs selected through voting mechanisms must have <span class="bold">semantic similarity < 10%</span> with existing Q&A knowledge base to ensure diversity and prevent redundancy.</p>
+                            <div class="tab-content">
+                                <h3><i class="fas fa-vote-yea"></i> Cross-Model Voting Mechanism</h3>
+                                <p>Employs <span class="bold">semantic similarity comparison</span> and <span class="bold">voting mechanisms</span> to filter and integrate complementary Q&A pairs from different models. High-quality Q&A pairs selected through voting mechanisms must have <span class="bold">semantic similarity < 10%</span> with existing Q&A knowledge base to ensure diversity and prevent redundancy.</p>
+                            </div>
+                            <div class="tab-image">
+                                <img src="./images/fig5_voting_mechanism.png" alt="Voting Mechanism">
+                                <div class="image-caption">Cross-Model Voting and Integration Mechanism</div>
+                            </div>
                         </div>
                         <div class="methodology-tab" data-tab="4">
-                            <h3><i class="fas fa-database"></i> Knowledge Base Optimization</h3>
-                            <p>Applies <span class="bold">rule-based segmentation strategies</span> for generated structured Q&A pairs, replacing traditional <span class="bold">automatic segmentation methods</span> to achieve optimal knowledge base construction.</p>
+                            <div class="tab-content">
+                                <h3><i class="fas fa-database"></i> Knowledge Base Optimization</h3>
+                                <p>Applies <span class="bold">rule-based segmentation strategies</span> for generated structured Q&A pairs, replacing traditional <span class="bold">automatic segmentation methods</span> to achieve optimal knowledge base construction.</p>
+                            </div>
+                            <div class="tab-image">
+                                <img src="./images/fig6_kb_optimization.png" alt="Knowledge Base Optimization">
+                                <div class="image-caption">Rule-based Knowledge Base Optimization Strategy</div>
+                            </div>
                         </div>
                     </div>
                     <div class="methodology-visual">
@@ -1055,6 +1191,29 @@
 
   <script>
     let currentLang = 'en';
+
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+        const navLinks = document.querySelector('.nav-links');
+        navLinks.classList.toggle('show');
+    }
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.remove('show');
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const navLinks = document.querySelector('.nav-links');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target) && navLinks.classList.contains('show')) {
+            navLinks.classList.remove('show');
+        }
+    });
 
     /**
      * Ensures the first methodology tab & image of the currently‑visible language
