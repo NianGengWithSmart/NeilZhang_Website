@@ -159,7 +159,7 @@
 
         /* Sections */
         .section {
-            padding: 5rem 0;
+            padding: 3rem 0;
             opacity: 0;
             transform: translateY(50px);
             transition: all 0.6s;
@@ -228,6 +228,29 @@
 
         .content-card li {
             margin-bottom: 0.5rem;
+        }
+
+        .supervisor-info {
+            text-align: center;
+            margin: 0.1rem 0 0.1rem 0;
+            padding: 0.1rem;
+        }
+        
+        .supervisor-info p {
+            font-size: 1.1rem;
+            color: #333;
+            margin: 0;
+        }
+
+        .supervisor-info a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .supervisor-info a:hover {
+            color: #5a6fd8;
+            text-decoration: underline;
         }
 
         /* Images */
@@ -757,6 +780,10 @@
     <section id="background" class="section">
         <div class="container">
             <div class="lang-content active" id="en-background">
+                <!-- Supervisor Information -->
+                 <div class="supervisor-info">
+                    <p>Supervisor: <a href="https://www.eee.hku.hk/people/tlalee/" target="_blank" rel="noopener noreferrer"><strong>Dr. Albert Ting Leung LEE</strong></a></p>
+                </div>
                 <!-- System Architecture Comparison -->
                 <div class="wide-image-container">
                     <img src="./images/fig0_system_architecture_comparison.png" alt="System Architecture Comparison">
@@ -833,6 +860,10 @@
                 </div>
             </div>
             <div class="lang-content" id="zh-background">
+                <!-- Supervisor Information -->
+                 <div class="supervisor-info">
+                    <p>导师：<a href="https://www.eee.hku.hk/people/tlalee/" target="_blank" rel="noopener noreferrer"><strong>Dr. Albert Ting Leung LEE</strong></a></p>
+                </div>
                 <!-- System Architecture Comparison -->
                 <div class="wide-image-container">
                     <img src="./images/fig0_system_architecture_comparison.png" alt="系统架构比较">
