@@ -1,4 +1,4 @@
-# Neil Zhang's Personal Website
+# Nianheng Zhang (Neil)'s Personal Website
 
 [![GitHub license](https://img.shields.io/github/license/NianGengWithSmart/NeilZhang_Website)](https://github.com/NianGengWithSmart/NeilZhang_Website/blob/main/LICENSE)
 
@@ -15,7 +15,7 @@ This is my personal website showcasing my research projects, professional experi
 
 ## Project Structure
 ```
-NeilZhang_Website/
+NianhengZhang_Website/
 ├── index.html              # Main portfolio page
 ├── multi-llm-rag-research.html  # Research project details
 ├── images/                 # Image assets
