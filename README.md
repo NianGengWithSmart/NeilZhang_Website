@@ -1,6 +1,6 @@
-# Nianheng Zhang (Neil)'s Personal Website
+# Nianheng Zhang (Leo)'s Personal Website
 
-[![GitHub license](https://img.shields.io/github/license/NianGengWithSmart/NeilZhang_Website)](https://github.com/NianGengWithSmart/NeilZhang_Website/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/NianGengWithSmart/LeoZhang_Website)](https://github.com/NianGengWithSmart/LeoZhang_Website/blob/main/LICENSE)
 
 ## Overview
 This is my personal website showcasing my research projects, professional experience, and technical skills. The website features a responsive design with bilingual support (English/Chinese) and dark/light mode themes.
@@ -39,12 +39,12 @@ A novel knowledge enhancement pipeline powered by multiple LLMs, which automatic
 ## Local Development
 1. Clone the repository:
 ```bash
-git clone https://github.com/NianGengWithSmart/NeilZhang_Website.git
+git clone https://github.com/NianGengWithSmart/LeoZhang_Website.git
 ```
 
 2. Open the project in your preferred editor:
 ```bash
-cd NeilZhang_Website
+cd LeoZhang_Website
 code .  # For Visual Studio Code
 ```
 
